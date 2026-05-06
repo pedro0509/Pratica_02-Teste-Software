@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BioClusterManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pratica-01</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">BioClusterManager.java</span></div><h1>BioClusterManager.java</h1><pre class="source lang-java linenums">import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L4">public class BioClusterManager {</span>
+
+    public List&lt;String&gt; processarClusters(List&lt;Observation&gt; obs, double raio, double threshold,
+                                          boolean modoInter, int limiteSeguranca) {
+<span class="fc" id="L8">        List&lt;String&gt; conexoes = new ArrayList&lt;&gt;();</span>
+
+<span class="pc bpc" id="L10" title="1 of 2 branches missed.">        if (obs.size() &lt; 2) {</span>
+<span class="nc" id="L11">            return conexoes;</span>
+        }
+
+<span class="fc bfc" id="L14" title="All 2 branches covered.">        for (int i = 0; i &lt; obs.size(); i++) {</span>
+<span class="fc" id="L15">            Observation o1 = obs.get(i);</span>
+
+<span class="fc bfc" id="L17" title="All 2 branches covered.">            for (int j = i + 1; j &lt; obs.size(); j++) {</span>
+<span class="fc" id="L18">                Observation o2 = obs.get(j);</span>
+
+<span class="fc" id="L20">                double dist = Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2) + Math.pow(o1.getY() - o2.getY(), 2));</span>
+
+<span class="fc bfc" id="L22" title="All 6 branches covered.">                if ((dist &lt; raio &amp;&amp; (o1.getEspecieId() == o2.getEspecieId() || modoInter)) &amp;&amp;</span>
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">                    (o1.getSaude() &gt; threshold || o1.getSaude() &gt; threshold) &amp;&amp;</span>
+<span class="pc bpc" id="L24" title="1 of 4 branches missed.">                    !(o1.isInvasora() &amp;&amp; o2.isInvasora())) {</span>
+
+<span class="fc" id="L26">                    conexoes.add(&quot;Cluster:&quot; + o1.getId() + &quot;-&quot; + o2.getId());</span>
+                }
+
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                if (conexoes.size() &gt;= limiteSeguranca) {</span>
+<span class="fc" id="L30">                    return conexoes;</span>
+                }
+            }
+        }
+<span class="fc" id="L34">        return conexoes;</span>
+    }
+}
+
+class Observation {
+    private int id, especieId;
+    private double x, y, saude;
+    private boolean invasora;
+
+<span class="fc" id="L43">    public Observation(int id, int especieId, double x, double y, double saude, boolean invasora) {</span>
+<span class="fc" id="L44">        this.id = id;</span>
+<span class="fc" id="L45">        this.especieId = especieId;</span>
+<span class="fc" id="L46">        this.x = x;</span>
+<span class="fc" id="L47">        this.y = y;</span>
+<span class="fc" id="L48">        this.saude = saude;</span>
+<span class="fc" id="L49">        this.invasora = invasora;</span>
+<span class="fc" id="L50">    }</span>
+
+<span class="fc" id="L52">    public int getId() { return id; }</span>
+<span class="fc" id="L53">    public int getEspecieId() { return especieId; }</span>
+<span class="fc" id="L54">    public double getX() { return x; }</span>
+<span class="fc" id="L55">    public double getY() { return y; }</span>
+<span class="fc" id="L56">    public double getSaude() { return saude; }</span>
+<span class="fc" id="L57">    public boolean isInvasora() { return invasora; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
